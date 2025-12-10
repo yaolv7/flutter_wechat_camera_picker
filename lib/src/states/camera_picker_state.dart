@@ -1071,11 +1071,21 @@ class CameraPickerState extends State<CameraPicker>
       lastShootingButtonPressedPosition = null;
     });
     try {
-      final XFile file = await controller.stopVideoRecording();
+      XFile file = await controller.stopVideoRecording();
       if (recordStopwatch.elapsed < minimumRecordingDuration) {
         pickerConfig.onMinimumRecordDurationNotMet?.call();
         return;
       }
+      if (file.name.endsWith('temp')) {
+        // 这个版本的camera_android_camerax库，后缀是temp，后面的版本才改成mp4
+        //   camera_android_camerax:0.6.17
+        final file2 = File(file.path);
+        final newName = '${file.name.split('.').firstOrNull}.mp4';
+        final newPath = '${file2.parent.path}/$newName';
+        file2.rename(newPath);
+        file = XFile(newPath, name: newName);
+      }
+
       controller.pausePreview();
       final bool? isCapturedFileHandled = pickerConfig.onXFileCaptured?.call(
         file,
