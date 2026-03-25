@@ -35,7 +35,12 @@ class CameraPickerViewerState extends State<CameraPickerViewer> {
 
   /// Controller for the video player.
   /// 视频播放的控制器
-  late final videoController = VideoPlayerController.file(previewFile);
+  late final videoController = VideoPlayerController.file(
+    previewFile,
+    viewType: Platform.isAndroid
+        ? VideoViewType.platformView
+        : VideoViewType.textureView,
+  );
 
   /// Whether the controller is playing.
   /// 播放控制器是否在播放
@@ -229,6 +234,7 @@ class CameraPickerViewerState extends State<CameraPickerViewer> {
     return Semantics(
       sortKey: const OrdinalSortKey(0),
       child: IconButton(
+        iconSize: 80,
         onPressed: () {
           if (isSavingEntity) {
             return;
@@ -236,9 +242,8 @@ class CameraPickerViewerState extends State<CameraPickerViewer> {
           Navigator.of(context).pop();
         },
         padding: EdgeInsets.zero,
-        constraints: BoxConstraints.tight(const Size.square(28)),
+        constraints: BoxConstraints.tight(const Size.square(80)),
         tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-        iconSize: 18,
         icon: Container(
           padding: const EdgeInsets.all(5),
           decoration: const BoxDecoration(
@@ -286,8 +291,8 @@ class CameraPickerViewerState extends State<CameraPickerViewer> {
   /// 预览区的确认按钮
   Widget buildConfirmButton(BuildContext context) {
     return MaterialButton(
-      minWidth: 20,
-      height: 32,
+      minWidth: 200,
+      height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 20),
       color: Theme.of(context).colorScheme.secondary,
       shape: RoundedRectangleBorder(
@@ -299,7 +304,7 @@ class CameraPickerViewerState extends State<CameraPickerViewer> {
         Singleton.textDelegate.confirm,
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyLarge?.color,
-          fontSize: 17,
+          fontSize: 32,
           fontWeight: FontWeight.normal,
         ),
       ),

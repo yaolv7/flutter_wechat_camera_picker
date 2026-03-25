@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'extensions/color_extension.dart';
 import 'extensions/l10n_extensions.dart';
@@ -51,14 +52,17 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       builder: (context, child) {
         if (mockSize == null) {
-          return child!;
+          return ResponsiveScaledBox(width: 750, child: child!);
         }
         final mq = MediaQuery.of(context).copyWith(size: mockSize);
-        return MediaQuery(
-          data: mq,
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SizedBox.fromSize(size: mockSize, child: child),
+        return ResponsiveScaledBox(
+          width: 750,
+          child: MediaQuery(
+            data: mq,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: SizedBox.fromSize(size: mockSize, child: child),
+            ),
           ),
         );
       },

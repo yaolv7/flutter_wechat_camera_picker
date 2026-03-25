@@ -1276,6 +1276,7 @@ class CameraPickerState extends State<CameraPicker>
   Widget buildCameraSwitch(BuildContext context) {
     return MergeSemantics(
       child: IconButton(
+        iconSize: 50,
         tooltip: textDelegate.sSwitchCameraLensDirectionLabel(
           nextCameraDescription.lensDirection,
         ),
@@ -1287,7 +1288,6 @@ class CameraPickerState extends State<CameraPicker>
               Icons.flip_camera_ios_outlined,
             _ => Icons.flip_camera_android_outlined,
           },
-          size: 24,
         ),
       ),
     );
@@ -1315,9 +1315,10 @@ class CameraPickerState extends State<CameraPicker>
         break;
     }
     return IconButton(
+      iconSize: 50,
       onPressed: () => switchFlashesMode(cameraValue),
       tooltip: textDelegate.sFlashModeLabel(cameraValue.flashMode),
-      icon: Icon(icon, size: 24),
+      icon: Icon(icon),
     );
   }
 
@@ -1331,11 +1332,11 @@ class CameraPickerState extends State<CameraPicker>
       duration: recordDetectDuration,
       opacity: controller?.value.isRecordingVideo ?? false ? 0 : 1,
       child: Container(
-        height: 48.0,
+        height: 100,
         alignment: Alignment.center,
         child: Text(
           textShootingButtonLabel,
-          style: const TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 32),
           textAlign: TextAlign.center,
         ),
       ),
@@ -1434,6 +1435,7 @@ class CameraPickerState extends State<CameraPicker>
   /// 返回键
   Widget buildBackButton(BuildContext context) {
     return IconButton(
+      iconSize: 80,
       onPressed: () => Navigator.of(context).maybePop(),
       tooltip: MaterialLocalizations.of(context).backButtonTooltip,
       icon: const Icon(Icons.clear),
@@ -1452,7 +1454,7 @@ class CameraPickerState extends State<CameraPicker>
     if (!showProgressIndicator && isRecordingVideo) {
       return const SizedBox.shrink();
     }
-    const size = Size.square(82.0);
+    const size = Size.square(120.0);
     return MergeSemantics(
       child: Semantics(
         label: isRecordingVideo
